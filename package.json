@@ -1,6 +1,6 @@
 {
   "name": "dlt-tools",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "description": "Blockchain and DLT utils",
   "main": "index.js",
   "scripts": {
