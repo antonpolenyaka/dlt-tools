@@ -1,0 +1,31 @@
+{
+  "name": "dlt-tools",
+  "version": "1.0.0",
+  "description": "Blockchain and DLT utils",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/antonpolenyaka/dlt-tools.git"
+  },
+  "keywords": [
+    "dlt",
+    "blockchain",
+    "evm",
+    "solidity",
+    "ethereum",
+    "utils"
+  ],
+  "author": "Anton Polenyaka",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/antonpolenyaka/dlt-tools/issues"
+  },
+  "homepage": "https://github.com/antonpolenyaka/dlt-tools#readme",
+  "dependencies": {
+    "axios": "^1.4.0",
+    "ethers": "^6.7.1"
+  }
+}
