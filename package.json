@@ -1,11 +1,13 @@
 {
-  "name": "dlt-toos",
-  "version": "1.0.4",
+  "name": "dlt-tools",
+  "version": "1.0.8",
   "description": "Blockchain and DLT utils",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc"
   },
+  "types": "./dist/index.d.ts",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/antonpolenyaka/dlt-tools.git"
