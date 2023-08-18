@@ -11,13 +11,17 @@ import CoinMarketCapAPI from './apis/CoinMarketCapAPI';
 import EthGasStationAPI from './apis/EthGasStationAPI';
 import ExternalAPIs from './apis/ExternalAPIs';
 // Blockchain utils
-import { hasEarned, hasDesposit, sumEarnedBN, isEarnedChanged, prettyBN, getEarnedByStakingByIndex, sleep } from './blockchain/blockchainUtils';
+import { hasEarned, hasDesposit, sumEarnedBN, isEarnedChanged, prettyBN, getEarnedByStakingByIndex, sleep, toShortAddress } from './blockchain/blockchainUtils';
 // Lib
 import { detectEthereumProvider, connect, checkChainId, switchChain, addChain } from './lib/connectWallet';
 // Basic
 import IWeb3Context from './IWeb3Context';
 import Web3Context from './Web3Context';
 import Web3Wallet from './Web3Wallet';
+import IEVMChainData from './IEVMChainData';
+import EVMChainData from './EVMChainData';
+import INativeCurrency from './INativeCurrency';
+import NativeCurrency from './NativeCurrency';
 
 export {
     GasPriceByTypeList,
@@ -39,6 +43,7 @@ export {
     prettyBN,
     getEarnedByStakingByIndex,
     sleep,
+    toShortAddress,
     detectEthereumProvider,
     connect,
     checkChainId,
@@ -47,4 +52,8 @@ export {
     IWeb3Context,
     Web3Context,
     Web3Wallet,
+    IEVMChainData,
+    EVMChainData,
+    INativeCurrency,
+    NativeCurrency
 };

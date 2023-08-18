@@ -5,3 +5,4 @@ export declare function isEarnedChanged(stateValues: any, propsValues: any): boo
 export declare function prettyBN(valueBN: any, customDecimals: any): string;
 export declare function getEarnedByStakingByIndex(index: any, earned: any): string;
 export declare function sleep(milliseconds: any): void;
+export declare function toShortAddress(address: string): string;

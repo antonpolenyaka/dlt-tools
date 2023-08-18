@@ -1,3 +1,4 @@
+import IEVMChainData from "../IEVMChainData";
 declare global {
     interface Window {
         ethereum: any;
@@ -8,7 +9,7 @@ export declare function detectEthereumProvider({ mustBeMetaMask, silent, timeout
     silent?: boolean | undefined;
     timeout?: number | undefined;
 }): Promise<unknown>;
-export declare function connect(): Promise<string | undefined>;
-export declare function checkChainId(): Promise<boolean>;
-export declare function switchChain(): Promise<boolean>;
-export declare function addChain(): Promise<boolean>;
+export declare function connect(chainData: IEVMChainData): Promise<string | undefined>;
+export declare function checkChainId(chainData: IEVMChainData): Promise<boolean>;
+export declare function switchChain(chainData: IEVMChainData): Promise<boolean>;
+export declare function addChain(chainData: IEVMChainData): Promise<boolean>;

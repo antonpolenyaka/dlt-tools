@@ -1,5 +1,7 @@
-const UserRejectedTxCode = 4001;
-const UserDoesntHaveThisNetwork = 4902;
+import IEVMChainData from "../IEVMChainData";
+
+const USER_REJECTED_TX_CODE = 4001;
+const USER_DOESNT_HAVE_THIS_NETWORK = 4902;
 
 declare global {
     interface Window { ethereum: any; }
@@ -53,19 +55,19 @@ export function detectEthereumProvider({ mustBeMetaMask = false, silent = false,
 }
 
 
-export async function connect(): Promise<string | undefined> {
+export async function connect(chainData: IEVMChainData): Promise<string | undefined> {
     let account: string | undefined;
     if (window.ethereum) {
         const accounts = await window.ethereum
             .request({ method: 'eth_requestAccounts' })
             .catch((err: any) => {
-                if (err.code === UserRejectedTxCode) {
+                if (err.code === USER_DOESNT_HAVE_THIS_NETWORK) {
                     console.log('Please connect to MetaMask.');
                 } else {
                     console.error(err);
                 }
             });
-        await checkChainId();
+        await checkChainId(chainData);
         account = accounts[0];
     }
     return account;
@@ -74,13 +76,13 @@ export async function connect(): Promise<string | undefined> {
 
 // Check what blockchain we are connected, is is different - try to swap to other network.
 // If not exist - try to add to the wallet.
-export async function checkChainId(): Promise<boolean> {
+export async function checkChainId(chainData: IEVMChainData): Promise<boolean> {
     let result: boolean;
     try {
         let chainId = await window.ethereum.request({ method: "net_version" });
         // ETH 0x1
-        if (chainId !== "0x1") {
-            result = await switchChain();
+        if (chainId !== chainData.chainId) {
+            result = await switchChain(chainData);
         } else {
             console.log("Correct network are choosed");
             result = true;
@@ -93,42 +95,41 @@ export async function checkChainId(): Promise<boolean> {
 
 }
 
-export async function switchChain(): Promise<boolean> {
-    let result: boolean = true;
-    // ETH Testnet 0x02, ETH 0x1
+export async function switchChain(chainData: IEVMChainData): Promise<boolean> {
+    let result: boolean = true;    
     await window.ethereum.request({
         method: "wallet_switchEthereumChain",
-        params: [{ chainId: "0x1" }]
+        params: [{ chainId: chainData.chainId }]
     }).catch(async (error: any) => {
-        if (error.code === UserDoesntHaveThisNetwork) {
-            result = await addChain();
-        } else if (error.code === UserRejectedTxCode) {
-            console.warn(`We tryed to change network to ETH but user reject this`);
+        if (error.code === USER_DOESNT_HAVE_THIS_NETWORK) {
+            result = await addChain(chainData);
+        } else if (error.code === USER_REJECTED_TX_CODE) {
+            console.warn(`We tryed to change network to ${chainData.chainId} but user reject this`);
             result = false;
         }
     });
     return result;
 }
 
-export async function addChain(): Promise<boolean> {
+export async function addChain(chainData: IEVMChainData): Promise<boolean> {
     let result: boolean = true;
     await window.ethereum.request({
         method: 'wallet_addEthereumChain',
         params: [
             {
-                chainId: '0x1',
-                chainName: 'Ethereum Mainnet',
+                chainId: chainData.chainId,
+                chainName: chainData.chainName,
                 nativeCurrency: {
-                    name: 'ETH',
-                    symbol: 'ETH',
-                    decimals: 18
+                    name: chainData.nativeCurrency.name,
+                    symbol: chainData.nativeCurrency.symbol,
+                    decimals: chainData.nativeCurrency.decimals
                 },
-                rpcUrls: ['https://eth.llamarpc.com/'],
-                blockExplorerUrls: ['https://etherscan.io'],
+                rpcUrls: [chainData.rpcUrls],
+                blockExplorerUrls: [chainData.blockExplorerUrls],
             }
         ],
     }).catch((addError: any) => {
-        console.log(`We tryed to add ETH network but it was unsuccessfule :( Error text: ${addError}`)
+        console.log(`We tryed to add network but it was unsuccessfule :( Error text: ${addError}`)
         result = false;
     });
     return result;

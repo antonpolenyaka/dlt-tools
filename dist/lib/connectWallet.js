@@ -10,8 +10,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.addChain = exports.switchChain = exports.checkChainId = exports.connect = exports.detectEthereumProvider = void 0;
-const UserRejectedTxCode = 4001;
-const UserDoesntHaveThisNetwork = 4902;
+const USER_REJECTED_TX_CODE = 4001;
+const USER_DOESNT_HAVE_THIS_NETWORK = 4902;
 function detectEthereumProvider({ mustBeMetaMask = false, silent = false, timeout = 3000, } = {}) {
     _validateInputs();
     let handled = false;
@@ -57,21 +57,21 @@ function detectEthereumProvider({ mustBeMetaMask = false, silent = false, timeou
     }
 }
 exports.detectEthereumProvider = detectEthereumProvider;
-function connect() {
+function connect(chainData) {
     return __awaiter(this, void 0, void 0, function* () {
         let account;
         if (window.ethereum) {
             const accounts = yield window.ethereum
                 .request({ method: 'eth_requestAccounts' })
                 .catch((err) => {
-                if (err.code === UserRejectedTxCode) {
+                if (err.code === USER_DOESNT_HAVE_THIS_NETWORK) {
                     console.log('Please connect to MetaMask.');
                 }
                 else {
                     console.error(err);
                 }
             });
-            yield checkChainId();
+            yield checkChainId(chainData);
             account = accounts[0];
         }
         return account;
@@ -80,14 +80,14 @@ function connect() {
 exports.connect = connect;
 // Check what blockchain we are connected, is is different - try to swap to other network.
 // If not exist - try to add to the wallet.
-function checkChainId() {
+function checkChainId(chainData) {
     return __awaiter(this, void 0, void 0, function* () {
         let result;
         try {
             let chainId = yield window.ethereum.request({ method: "net_version" });
             // ETH 0x1
-            if (chainId !== "0x1") {
-                result = yield switchChain();
+            if (chainId !== chainData.chainId) {
+                result = yield switchChain(chainData);
             }
             else {
                 console.log("Correct network are choosed");
@@ -102,19 +102,18 @@ function checkChainId() {
     });
 }
 exports.checkChainId = checkChainId;
-function switchChain() {
+function switchChain(chainData) {
     return __awaiter(this, void 0, void 0, function* () {
         let result = true;
-        // ETH Testnet 0x02, ETH 0x1
         yield window.ethereum.request({
             method: "wallet_switchEthereumChain",
-            params: [{ chainId: "0x1" }]
+            params: [{ chainId: chainData.chainId }]
         }).catch((error) => __awaiter(this, void 0, void 0, function* () {
-            if (error.code === UserDoesntHaveThisNetwork) {
-                result = yield addChain();
+            if (error.code === USER_DOESNT_HAVE_THIS_NETWORK) {
+                result = yield addChain(chainData);
             }
-            else if (error.code === UserRejectedTxCode) {
-                console.warn(`We tryed to change network to ETH but user reject this`);
+            else if (error.code === USER_REJECTED_TX_CODE) {
+                console.warn(`We tryed to change network to ${chainData.chainId} but user reject this`);
                 result = false;
             }
         }));
@@ -122,26 +121,26 @@ function switchChain() {
     });
 }
 exports.switchChain = switchChain;
-function addChain() {
+function addChain(chainData) {
     return __awaiter(this, void 0, void 0, function* () {
         let result = true;
         yield window.ethereum.request({
             method: 'wallet_addEthereumChain',
             params: [
                 {
-                    chainId: '0x1',
-                    chainName: 'Ethereum Mainnet',
+                    chainId: chainData.chainId,
+                    chainName: chainData.chainName,
                     nativeCurrency: {
-                        name: 'ETH',
-                        symbol: 'ETH',
-                        decimals: 18
+                        name: chainData.nativeCurrency.name,
+                        symbol: chainData.nativeCurrency.symbol,
+                        decimals: chainData.nativeCurrency.decimals
                     },
-                    rpcUrls: ['https://eth.llamarpc.com/'],
-                    blockExplorerUrls: ['https://etherscan.io'],
+                    rpcUrls: [chainData.rpcUrls],
+                    blockExplorerUrls: [chainData.blockExplorerUrls],
                 }
             ],
         }).catch((addError) => {
-            console.log(`We tryed to add ETH network but it was unsuccessfule :( Error text: ${addError}`);
+            console.log(`We tryed to add network but it was unsuccessfule :( Error text: ${addError}`);
             result = false;
         });
         return result;

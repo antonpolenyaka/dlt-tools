@@ -99,3 +99,7 @@ export function sleep(milliseconds: any) {
         currentDate = Date.now();
     } while (currentDate - date < milliseconds);
 }
+
+export function toShortAddress(address: string): string {
+    return address.substring(0, 5) + "..." + address.slice(-4);
+}

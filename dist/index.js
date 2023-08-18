@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Web3Wallet = exports.Web3Context = exports.addChain = exports.switchChain = exports.checkChainId = exports.connect = exports.detectEthereumProvider = exports.sleep = exports.getEarnedByStakingByIndex = exports.prettyBN = exports.isEarnedChanged = exports.sumEarnedBN = exports.hasDesposit = exports.hasEarned = exports.ExternalAPIs = exports.EthGasStationAPI = exports.CoinMarketCapAPI = exports.CoinGeckoAPI = exports.TokenMarketInfo = exports.MarketChartPoint = exports.MarketChartInfo = exports.InfoCardsList = exports.InfoCardRow = exports.GasPriceInfo = exports.GasPriceByTypeRow = exports.GasPriceByTypeList = void 0;
+exports.NativeCurrency = exports.EVMChainData = exports.Web3Wallet = exports.Web3Context = exports.addChain = exports.switchChain = exports.checkChainId = exports.connect = exports.detectEthereumProvider = exports.toShortAddress = exports.sleep = exports.getEarnedByStakingByIndex = exports.prettyBN = exports.isEarnedChanged = exports.sumEarnedBN = exports.hasDesposit = exports.hasEarned = exports.ExternalAPIs = exports.EthGasStationAPI = exports.CoinMarketCapAPI = exports.CoinGeckoAPI = exports.TokenMarketInfo = exports.MarketChartPoint = exports.MarketChartInfo = exports.InfoCardsList = exports.InfoCardRow = exports.GasPriceInfo = exports.GasPriceByTypeRow = exports.GasPriceByTypeList = void 0;
 const GasPriceByTypeList_1 = __importDefault(require("./apis/models/GasPriceByTypeList"));
 exports.GasPriceByTypeList = GasPriceByTypeList_1.default;
 const GasPriceByTypeRow_1 = __importDefault(require("./apis/models/GasPriceByTypeRow"));
@@ -37,6 +37,7 @@ Object.defineProperty(exports, "isEarnedChanged", { enumerable: true, get: funct
 Object.defineProperty(exports, "prettyBN", { enumerable: true, get: function () { return blockchainUtils_1.prettyBN; } });
 Object.defineProperty(exports, "getEarnedByStakingByIndex", { enumerable: true, get: function () { return blockchainUtils_1.getEarnedByStakingByIndex; } });
 Object.defineProperty(exports, "sleep", { enumerable: true, get: function () { return blockchainUtils_1.sleep; } });
+Object.defineProperty(exports, "toShortAddress", { enumerable: true, get: function () { return blockchainUtils_1.toShortAddress; } });
 // Lib
 const connectWallet_1 = require("./lib/connectWallet");
 Object.defineProperty(exports, "detectEthereumProvider", { enumerable: true, get: function () { return connectWallet_1.detectEthereumProvider; } });
@@ -48,3 +49,7 @@ const Web3Context_1 = __importDefault(require("./Web3Context"));
 exports.Web3Context = Web3Context_1.default;
 const Web3Wallet_1 = __importDefault(require("./Web3Wallet"));
 exports.Web3Wallet = Web3Wallet_1.default;
+const EVMChainData_1 = __importDefault(require("./EVMChainData"));
+exports.EVMChainData = EVMChainData_1.default;
+const NativeCurrency_1 = __importDefault(require("./NativeCurrency"));
+exports.NativeCurrency = NativeCurrency_1.default;

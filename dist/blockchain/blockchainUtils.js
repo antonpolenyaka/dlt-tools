@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.sleep = exports.getEarnedByStakingByIndex = exports.prettyBN = exports.isEarnedChanged = exports.sumEarnedBN = exports.hasDesposit = exports.hasEarned = void 0;
+exports.toShortAddress = exports.sleep = exports.getEarnedByStakingByIndex = exports.prettyBN = exports.isEarnedChanged = exports.sumEarnedBN = exports.hasDesposit = exports.hasEarned = void 0;
 const ethers_1 = require("ethers");
 function hasEarned(earnedByStaking) {
     let result = false;
@@ -105,3 +105,7 @@ function sleep(milliseconds) {
     } while (currentDate - date < milliseconds);
 }
 exports.sleep = sleep;
+function toShortAddress(address) {
+    return address.substring(0, 5) + "..." + address.slice(-4);
+}
+exports.toShortAddress = toShortAddress;

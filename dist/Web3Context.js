@@ -6,9 +6,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const Web3Wallet_1 = __importDefault(require("./Web3Wallet"));
 const ExternalAPIs_1 = __importDefault(require("./apis/ExternalAPIs"));
 class Web3Context {
-    constructor() {
-        this.wallet = new Web3Wallet_1.default();
+    constructor(chainData_) {
+        this.chainData = chainData_;
         this.extAPIs = new ExternalAPIs_1.default();
+        this.wallet = new Web3Wallet_1.default(chainData_);
     }
 }
 exports.default = Web3Context;
