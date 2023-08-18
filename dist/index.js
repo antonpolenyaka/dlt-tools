@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.NativeCurrency = exports.EVMChainData = exports.Web3Wallet = exports.Web3Context = exports.addChain = exports.switchChain = exports.checkChainId = exports.connect = exports.detectEthereumProvider = exports.toShortAddress = exports.sleep = exports.getEarnedByStakingByIndex = exports.prettyBN = exports.isEarnedChanged = exports.sumEarnedBN = exports.hasDesposit = exports.hasEarned = exports.ExternalAPIs = exports.EthGasStationAPI = exports.CoinMarketCapAPI = exports.CoinGeckoAPI = exports.TokenMarketInfo = exports.MarketChartPoint = exports.MarketChartInfo = exports.InfoCardsList = exports.InfoCardRow = exports.GasPriceInfo = exports.GasPriceByTypeRow = exports.GasPriceByTypeList = void 0;
+exports.NFTContract = exports.NativeCurrency = exports.EVMChainData = exports.Web3Wallet = exports.Web3Context = exports.addChain = exports.switchChain = exports.checkChainId = exports.connect = exports.detectEthereumProvider = exports.toShortAddress = exports.sleep = exports.getEarnedByStakingByIndex = exports.prettyBN = exports.isEarnedChanged = exports.sumEarnedBN = exports.hasDesposit = exports.hasEarned = exports.ExternalAPIs = exports.EthGasStationAPI = exports.CoinMarketCapAPI = exports.CoinGeckoAPI = exports.TokenMarketInfo = exports.MarketChartPoint = exports.MarketChartInfo = exports.InfoCardsList = exports.InfoCardRow = exports.GasPriceInfo = exports.GasPriceByTypeRow = exports.GasPriceByTypeList = void 0;
 const GasPriceByTypeList_1 = __importDefault(require("./apis/models/GasPriceByTypeList"));
 exports.GasPriceByTypeList = GasPriceByTypeList_1.default;
 const GasPriceByTypeRow_1 = __importDefault(require("./apis/models/GasPriceByTypeRow"));
@@ -53,3 +53,5 @@ const EVMChainData_1 = __importDefault(require("./EVMChainData"));
 exports.EVMChainData = EVMChainData_1.default;
 const NativeCurrency_1 = __importDefault(require("./NativeCurrency"));
 exports.NativeCurrency = NativeCurrency_1.default;
+const NFTContract_1 = __importDefault(require("./contracts/NFTContract"));
+exports.NFTContract = NFTContract_1.default;

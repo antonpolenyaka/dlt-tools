@@ -22,6 +22,7 @@ import IEVMChainData from './IEVMChainData';
 import EVMChainData from './EVMChainData';
 import INativeCurrency from './INativeCurrency';
 import NativeCurrency from './NativeCurrency';
+import NFTContract from './contracts/NFTContract';
 
 export {
     GasPriceByTypeList,
@@ -55,5 +56,6 @@ export {
     IEVMChainData,
     EVMChainData,
     INativeCurrency,
-    NativeCurrency
+    NativeCurrency,
+    NFTContract
 };

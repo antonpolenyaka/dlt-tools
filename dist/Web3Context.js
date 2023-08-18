@@ -11,5 +11,18 @@ class Web3Context {
         this.extAPIs = new ExternalAPIs_1.default();
         this.wallet = new Web3Wallet_1.default(chainData_);
     }
+    static GetContext(chainData_) {
+        let context = undefined;
+        if (typeof window !== 'undefined') {
+            if (window.web3Context instanceof Web3Context) {
+                context = window.web3Context;
+            }
+            else {
+                window.web3Context = new Web3Context(chainData_);
+                context = window.web3Context;
+            }
+        }
+        return context;
+    }
 }
 exports.default = Web3Context;

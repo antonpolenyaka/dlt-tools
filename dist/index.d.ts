@@ -19,4 +19,5 @@ import IEVMChainData from './IEVMChainData';
 import EVMChainData from './EVMChainData';
 import INativeCurrency from './INativeCurrency';
 import NativeCurrency from './NativeCurrency';
-export { GasPriceByTypeList, GasPriceByTypeRow, GasPriceInfo, InfoCardRow, InfoCardsList, MarketChartInfo, MarketChartPoint, TokenMarketInfo, CoinGeckoAPI, CoinMarketCapAPI, EthGasStationAPI, ExternalAPIs, hasEarned, hasDesposit, sumEarnedBN, isEarnedChanged, prettyBN, getEarnedByStakingByIndex, sleep, toShortAddress, detectEthereumProvider, connect, checkChainId, switchChain, addChain, IWeb3Context, Web3Context, Web3Wallet, IEVMChainData, EVMChainData, INativeCurrency, NativeCurrency };
+import NFTContract from './contracts/NFTContract';
+export { GasPriceByTypeList, GasPriceByTypeRow, GasPriceInfo, InfoCardRow, InfoCardsList, MarketChartInfo, MarketChartPoint, TokenMarketInfo, CoinGeckoAPI, CoinMarketCapAPI, EthGasStationAPI, ExternalAPIs, hasEarned, hasDesposit, sumEarnedBN, isEarnedChanged, prettyBN, getEarnedByStakingByIndex, sleep, toShortAddress, detectEthereumProvider, connect, checkChainId, switchChain, addChain, IWeb3Context, Web3Context, Web3Wallet, IEVMChainData, EVMChainData, INativeCurrency, NativeCurrency, NFTContract };
