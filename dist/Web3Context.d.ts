@@ -12,5 +12,5 @@ export default class Web3Context implements IWeb3Context {
     extAPIs: ExternalAPIs;
     chainData: IEVMChainData;
     constructor(chainData_: IEVMChainData);
-    static GetContext(chainData_: IEVMChainData): IWeb3Context | undefined;
+    static GetContext(chainData_: IEVMChainData): Promise<IWeb3Context | undefined>;
 }
