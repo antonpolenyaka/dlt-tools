@@ -27,6 +27,7 @@ class Web3Context implements IWeb3Context {
             if (window.web3Context instanceof Web3Context) {
                 console.debug("Web3Context: Get old context");
                 context = window.web3Context;
+                await context.wallet.reconnect();
             } else {
                 console.debug("Web3Context: A new context must be created, since the object was lost");
                 window.web3Context = new Web3Context(chainData_);
