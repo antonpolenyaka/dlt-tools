@@ -26,37 +26,40 @@ class Web3Wallet {
         this.signer = undefined;
         this.chainData = chainData_;
     }
+    initializeConnection(userAccount) {
+        return __awaiter(this, void 0, void 0, function* () {
+            this.isConnected = true;
+            this.address = userAccount;
+            this.shortAddress = (0, blockchainUtils_1.toShortAddress)(userAccount);
+            this.provider = new ethers_1.ethers.BrowserProvider(window.ethereum);
+            this.signer = yield this.provider.getSigner();
+            this.eventEmitter.emit("onConnectedChanged", this.isConnected, this.address, this.shortAddress);
+            window.ethereum.on("accountsChanged", (accounts) => {
+                if (accounts[0] === undefined) {
+                    this.disconnect();
+                }
+                else {
+                    this.address = accounts[0];
+                    this.shortAddress = (0, blockchainUtils_1.toShortAddress)(accounts[0]);
+                    this.eventEmitter.emit("onAddressChanged", this.isConnected, this.address, this.shortAddress);
+                }
+            });
+        });
+    }
     reconnect() {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 this.isConnected = false;
                 if (this.chainData !== undefined) {
                     const userAccount = yield (0, connectWallet_1.connect)(this.chainData);
-                    console.log("reconnect userAccount", userAccount);
+                    console.debug("Web3Wallet userAccount", userAccount);
                     if (userAccount !== undefined) {
-                        this.isConnected = true;
-                        this.address = userAccount;
-                        this.shortAddress = (0, blockchainUtils_1.toShortAddress)(userAccount);
-                        this.isConnected = true;
-                        this.provider = new ethers_1.ethers.BrowserProvider(window.ethereum);
-                        this.signer = yield this.provider.getSigner();
-                        this.eventEmitter.emit("onConnectedChanged", this.isConnected, this.address, this.shortAddress);
-                        // Detect if wallet is changed
-                        window.ethereum.on("accountsChanged", (accounts) => {
-                            if (accounts[0] === undefined) {
-                                this.disconnect();
-                            }
-                            else {
-                                this.address = accounts[0];
-                                this.shortAddress = (0, blockchainUtils_1.toShortAddress)(accounts[0]);
-                                this.eventEmitter.emit("onAddressChanged", this.isConnected, this.address, this.shortAddress);
-                            }
-                        });
+                        yield this.initializeConnection(userAccount);
                     }
                 }
             }
             catch (exception) {
-                console.error("Web3Wallet catched exception", exception);
+                console.error("Web3Wallet catched exception in reconnect", exception);
             }
             return this.isConnected;
         });
@@ -64,42 +67,21 @@ class Web3Wallet {
     connect() {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                if (this.chainData === undefined) {
-                    return this.isConnected;
-                }
-                const userAccount = yield (0, connectWallet_1.connect)(this.chainData);
-                if (userAccount === undefined) {
-                    return this.isConnected;
-                }
-                this.address = userAccount;
-                this.shortAddress = (0, blockchainUtils_1.toShortAddress)(userAccount);
-                this.isConnected = true;
-                this.provider = new ethers_1.ethers.BrowserProvider(window.ethereum);
-                this.signer = yield this.provider.getSigner();
-                this.eventEmitter.emit("onConnectedChanged", this.isConnected, this.address, this.shortAddress);
-                // Detect if wallet is changed
-                window.ethereum.on("accountsChanged", (accounts) => {
-                    // Time to reload your interface with accounts[0]!
-                    console.log("Account in web3 wallet is changed to " + accounts, 1, typeof accounts);
-                    console.log("Account in web3 wallet is changed to " + accounts[0], 2, typeof accounts[0]);
-                    if (accounts[0] === undefined) {
-                        this.disconnect();
+                this.isConnected = false;
+                if (this.chainData !== undefined) {
+                    const userAccount = yield (0, connectWallet_1.connect)(this.chainData);
+                    console.debug("Web3Wallet userAccount", userAccount);
+                    if (userAccount !== undefined) {
+                        yield this.initializeConnection(userAccount);
                     }
-                    else {
-                        this.address = accounts[0];
-                        this.shortAddress =
-                            accounts[0].substring(0, 5) + "..." + accounts[0].slice(-4);
-                        this.eventEmitter.emit("onAddressChanged", this.isConnected, this.address, this.shortAddress);
-                    }
-                });
+                }
             }
             catch (exception) {
-                console.error("catched exception", exception);
+                console.error("Web3Wallet catched exception in connect", exception);
             }
             return this.isConnected;
         });
     }
-    setAddress() { }
     disconnect() {
         this.address = undefined;
         this.shortAddress = undefined;

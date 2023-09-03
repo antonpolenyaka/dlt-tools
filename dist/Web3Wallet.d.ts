@@ -2,7 +2,7 @@
 import { BrowserProvider, JsonRpcSigner } from "ethers";
 import EventEmitter from "events";
 import IEVMChainData from "./IEVMChainData";
-export default class Web3Wallet {
+declare class Web3Wallet {
     isConnected: boolean;
     address: string | undefined;
     shortAddress: string | undefined;
@@ -11,8 +11,9 @@ export default class Web3Wallet {
     signer: JsonRpcSigner | undefined;
     chainData: IEVMChainData | undefined;
     constructor(chainData_: IEVMChainData);
+    initializeConnection(userAccount: string): Promise<void>;
     reconnect(): Promise<boolean>;
     connect(): Promise<boolean>;
-    setAddress(): void;
     disconnect(): boolean;
 }
+export default Web3Wallet;

@@ -12,7 +12,7 @@ declare class Web3Context implements IWeb3Context {
     extAPIs: ExternalAPIs;
     chainData: IEVMChainData;
     constructor(chainData_: IEVMChainData);
-    reconnect(): void;
-    static GetContext(chainData_: IEVMChainData): IWeb3Context | undefined;
+    reconnect(): Promise<void>;
+    static GetContext(chainData_: IEVMChainData): Promise<IWeb3Context | undefined>;
 }
 export default Web3Context;

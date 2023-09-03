@@ -1,4 +1,13 @@
 "use strict";
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
@@ -12,21 +21,30 @@ class Web3Context {
         this.wallet = new Web3Wallet_1.default(chainData_);
     }
     reconnect() {
-        this.wallet.reconnect();
+        return __awaiter(this, void 0, void 0, function* () {
+            yield this.wallet.reconnect();
+        });
     }
     static GetContext(chainData_) {
-        let context = undefined;
-        if (typeof window !== 'undefined') {
-            if (window.web3Context instanceof Web3Context) {
-                context = window.web3Context;
+        return __awaiter(this, void 0, void 0, function* () {
+            let context = undefined;
+            if (typeof window !== 'undefined') {
+                if (window.web3Context instanceof Web3Context) {
+                    console.debug("Web3Context: Get old context");
+                    context = window.web3Context;
+                }
+                else {
+                    console.log("Web3Context: A new context must be created, since the object was lost");
+                    window.web3Context = new Web3Context(chainData_);
+                    context = window.web3Context;
+                    yield context.reconnect();
+                }
             }
             else {
-                window.web3Context = new Web3Context(chainData_);
-                context = window.web3Context;
-                context.reconnect();
+                console.log("Web3Context: No window identified");
             }
-        }
-        return context;
+            return context;
+        });
     }
 }
 exports.default = Web3Context;
