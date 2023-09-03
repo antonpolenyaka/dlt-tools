@@ -1,13 +1,4 @@
 "use strict";
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
@@ -20,21 +11,22 @@ class Web3Context {
         this.extAPIs = new ExternalAPIs_1.default();
         this.wallet = new Web3Wallet_1.default(chainData_);
     }
+    reconnect() {
+        this.wallet.reconnect();
+    }
     static GetContext(chainData_) {
-        return __awaiter(this, void 0, void 0, function* () {
-            let context = undefined;
-            if (typeof window !== 'undefined') {
-                if (window.web3Context instanceof Web3Context) {
-                    context = window.web3Context;
-                }
-                else {
-                    window.web3Context = new Web3Context(chainData_);
-                    context = window.web3Context;
-                    yield context.wallet.connect();
-                }
+        let context = undefined;
+        if (typeof window !== 'undefined') {
+            if (window.web3Context instanceof Web3Context) {
+                context = window.web3Context;
             }
-            return context;
-        });
+            else {
+                window.web3Context = new Web3Context(chainData_);
+                context = window.web3Context;
+                context.reconnect();
+            }
+        }
+        return context;
     }
 }
 exports.default = Web3Context;

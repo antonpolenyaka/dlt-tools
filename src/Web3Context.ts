@@ -9,7 +9,7 @@ declare global {
     }
 }
 
-export default class Web3Context implements IWeb3Context {
+class Web3Context implements IWeb3Context {
     wallet: Web3Wallet;
     extAPIs: ExternalAPIs;
     chainData: IEVMChainData;
@@ -20,7 +20,11 @@ export default class Web3Context implements IWeb3Context {
         this.wallet = new Web3Wallet(chainData_);
     }
 
-    public static async GetContext(chainData_: IEVMChainData): Promise<IWeb3Context | undefined> {
+    public reconnect(): void {
+        this.wallet.reconnect();
+    }
+
+    public static GetContext(chainData_: IEVMChainData): IWeb3Context | undefined {
         let context: IWeb3Context | undefined = undefined;
 
         if (typeof window !== 'undefined') {
@@ -29,10 +33,12 @@ export default class Web3Context implements IWeb3Context {
             } else {
                 window.web3Context = new Web3Context(chainData_);
                 context = window.web3Context;
-                await context.wallet.connect();
+                context.reconnect();
             }
         }
 
         return context;
     }
 }
+
+export default Web3Context;

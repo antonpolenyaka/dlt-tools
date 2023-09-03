@@ -1,20 +1,10 @@
-import { BrowserProvider, Contract, JsonRpcSigner, Result } from "ethers";
+import { BrowserProvider, JsonRpcSigner, Result } from "ethers";
+import BaseContract from "./BaseContract";
 
-export default class NFTContract {
-    abi: any;
-    address: string;
-    contract: any;
-    contractSigned: any;
-    provider: BrowserProvider;
-    signer: JsonRpcSigner;
+class NFTContract extends BaseContract {
 
     constructor(contractAddress_: string, provider_: BrowserProvider, signer_: JsonRpcSigner, abi_: any) {
-        this.address = contractAddress_;
-        this.abi = abi_;
-        this.contract = new Contract(contractAddress_, abi_, provider_);
-        this.provider = provider_;
-        this.signer = signer_;
-        this.contractSigned = new Contract(contractAddress_, abi_, signer_);
+        super(contractAddress_, provider_, signer_, abi_);
     }
 
     getOwner = async (): Promise<string> => {
@@ -24,3 +14,5 @@ export default class NFTContract {
         return owner;
     }
 }
+
+export default NFTContract;

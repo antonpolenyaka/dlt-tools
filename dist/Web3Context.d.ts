@@ -7,10 +7,12 @@ declare global {
         web3Context: Web3Context;
     }
 }
-export default class Web3Context implements IWeb3Context {
+declare class Web3Context implements IWeb3Context {
     wallet: Web3Wallet;
     extAPIs: ExternalAPIs;
     chainData: IEVMChainData;
     constructor(chainData_: IEVMChainData);
-    static GetContext(chainData_: IEVMChainData): Promise<IWeb3Context | undefined>;
+    reconnect(): void;
+    static GetContext(chainData_: IEVMChainData): IWeb3Context | undefined;
 }
+export default Web3Context;

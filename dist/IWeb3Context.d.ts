@@ -5,4 +5,5 @@ export default interface IWeb3Context {
     wallet: Web3Wallet;
     extAPIs: ExternalAPIs;
     chainData: IEVMChainData;
+    reconnect(): void;
 }

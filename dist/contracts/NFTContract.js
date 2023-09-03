@@ -8,22 +8,20 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-const ethers_1 = require("ethers");
-class NFTContract {
+const BaseContract_1 = __importDefault(require("./BaseContract"));
+class NFTContract extends BaseContract_1.default {
     constructor(contractAddress_, provider_, signer_, abi_) {
+        super(contractAddress_, provider_, signer_, abi_);
         this.getOwner = () => __awaiter(this, void 0, void 0, function* () {
             const result = yield this.contract.owner.staticCallResult();
             const owner = result[0];
             console.debug("NFTContract.getOwner", owner);
             return owner;
         });
-        this.address = contractAddress_;
-        this.abi = abi_;
-        this.contract = new ethers_1.Contract(contractAddress_, abi_, provider_);
-        this.provider = provider_;
-        this.signer = signer_;
-        this.contractSigned = new ethers_1.Contract(contractAddress_, abi_, signer_);
     }
 }
 exports.default = NFTContract;
