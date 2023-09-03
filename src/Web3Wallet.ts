@@ -1,4 +1,4 @@
-import { connect } from "./lib/connectWallet";
+import { connect, reconnect } from "./lib/connectWallet";
 import { BrowserProvider, JsonRpcSigner, ethers } from "ethers";
 import EventEmitter from "events";
 import IEVMChainData from "./IEVMChainData";
@@ -24,6 +24,7 @@ class Web3Wallet {
   }
 
   async initializeConnection(userAccount: string) {
+    console.debug("Set isConnected to true");
     this.isConnected = true;
     this.address = userAccount;
     this.shortAddress = toShortAddress(userAccount);
@@ -56,10 +57,23 @@ class Web3Wallet {
     try {
       this.isConnected = false;
       if (this.chainData !== undefined) {
-        const userAccount: string | undefined = await connect(this.chainData);
-        console.debug("Web3Wallet userAccount", userAccount);
-        if (userAccount !== undefined) {
-          await this.initializeConnection(userAccount);
+        // Check if is metamask and UI is unlocked (if is locked, we don't have any account connected)
+        let isUnlocked: boolean = true;
+        let providerIsConnected: boolean = false;
+        if (window.ethereum) {
+          providerIsConnected = window.ethereum.isConnected();
+          if (window.ethereum._metamask) {
+            isUnlocked = await window.ethereum._metamask.isUnlocked();
+          }
+        }        
+        // Check if is locked, we don't try to do anything to reconnect
+        if (isUnlocked === true && providerIsConnected === true) {
+          // Case if we have unlocked web3 wallet and connect to provider
+          const userAccount: string | undefined = await reconnect(this.chainData);
+          console.debug("Web3Wallet userAccount", userAccount);
+          if (userAccount !== undefined) {
+            await this.initializeConnection(userAccount);
+          }
         }
       }
     } catch (exception) {

@@ -54,6 +54,23 @@ export function detectEthereumProvider({ mustBeMetaMask = false, silent = false,
     }
 }
 
+export async function reconnect(chainData: IEVMChainData): Promise<string | undefined> {
+    let account: string | undefined;
+    if (window.ethereum) {
+        const accounts = await window.ethereum
+            .request({ method: 'eth_accounts' })
+            .catch((err: any) => {
+                if (err.code === USER_DOESNT_HAVE_THIS_NETWORK) {
+                    console.log('Please connect to MetaMask.');
+                } else {
+                    console.error(err);
+                }
+            });
+        await checkChainId(chainData);
+        account = accounts[0];
+    }
+    return account;
+}
 
 export async function connect(chainData: IEVMChainData): Promise<string | undefined> {
     let account: string | undefined;

@@ -28,6 +28,7 @@ class Web3Wallet {
     }
     initializeConnection(userAccount) {
         return __awaiter(this, void 0, void 0, function* () {
+            console.debug("Set isConnected to true");
             this.isConnected = true;
             this.address = userAccount;
             this.shortAddress = (0, blockchainUtils_1.toShortAddress)(userAccount);
@@ -51,10 +52,23 @@ class Web3Wallet {
             try {
                 this.isConnected = false;
                 if (this.chainData !== undefined) {
-                    const userAccount = yield (0, connectWallet_1.connect)(this.chainData);
-                    console.debug("Web3Wallet userAccount", userAccount);
-                    if (userAccount !== undefined) {
-                        yield this.initializeConnection(userAccount);
+                    // Check if is metamask and UI is unlocked (if is locked, we don't have any account connected)
+                    let isUnlocked = true;
+                    let providerIsConnected = false;
+                    if (window.ethereum) {
+                        providerIsConnected = window.ethereum.isConnected();
+                        if (window.ethereum._metamask) {
+                            isUnlocked = yield window.ethereum._metamask.isUnlocked();
+                        }
+                    }
+                    // Check if is locked, we don't try to do anything to reconnect
+                    if (isUnlocked === true && providerIsConnected === true) {
+                        // Case if we have unlocked web3 wallet and connect to provider
+                        const userAccount = yield (0, connectWallet_1.reconnect)(this.chainData);
+                        console.debug("Web3Wallet userAccount", userAccount);
+                        if (userAccount !== undefined) {
+                            yield this.initializeConnection(userAccount);
+                        }
                     }
                 }
             }

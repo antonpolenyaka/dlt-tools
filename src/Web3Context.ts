@@ -20,10 +20,6 @@ class Web3Context implements IWeb3Context {
         this.wallet = new Web3Wallet(chainData_);
     }
 
-    public async reconnect(): Promise<void> {
-        await this.wallet.reconnect();
-    }
-
     public static async GetContext(chainData_: IEVMChainData): Promise<IWeb3Context | undefined> {
         let context: IWeb3Context | undefined = undefined;
 
@@ -32,13 +28,13 @@ class Web3Context implements IWeb3Context {
                 console.debug("Web3Context: Get old context");
                 context = window.web3Context;
             } else {
-                console.log("Web3Context: A new context must be created, since the object was lost");
+                console.debug("Web3Context: A new context must be created, since the object was lost");
                 window.web3Context = new Web3Context(chainData_);
                 context = window.web3Context;
-                await context.reconnect();
+                await context.wallet.reconnect();
             }
         } else {
-            console.log("Web3Context: No window identified");
+            console.debug("Web3Context: No window identified");
         }
 
         return context;

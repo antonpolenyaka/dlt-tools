@@ -20,11 +20,6 @@ class Web3Context {
         this.extAPIs = new ExternalAPIs_1.default();
         this.wallet = new Web3Wallet_1.default(chainData_);
     }
-    reconnect() {
-        return __awaiter(this, void 0, void 0, function* () {
-            yield this.wallet.reconnect();
-        });
-    }
     static GetContext(chainData_) {
         return __awaiter(this, void 0, void 0, function* () {
             let context = undefined;
@@ -34,14 +29,14 @@ class Web3Context {
                     context = window.web3Context;
                 }
                 else {
-                    console.log("Web3Context: A new context must be created, since the object was lost");
+                    console.debug("Web3Context: A new context must be created, since the object was lost");
                     window.web3Context = new Web3Context(chainData_);
                     context = window.web3Context;
-                    yield context.reconnect();
+                    yield context.wallet.reconnect();
                 }
             }
             else {
-                console.log("Web3Context: No window identified");
+                console.debug("Web3Context: No window identified");
             }
             return context;
         });

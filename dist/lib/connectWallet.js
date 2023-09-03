@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.addChain = exports.switchChain = exports.checkChainId = exports.connect = exports.detectEthereumProvider = void 0;
+exports.addChain = exports.switchChain = exports.checkChainId = exports.connect = exports.reconnect = exports.detectEthereumProvider = void 0;
 const USER_REJECTED_TX_CODE = 4001;
 const USER_DOESNT_HAVE_THIS_NETWORK = 4902;
 function detectEthereumProvider({ mustBeMetaMask = false, silent = false, timeout = 3000, } = {}) {
@@ -57,6 +57,27 @@ function detectEthereumProvider({ mustBeMetaMask = false, silent = false, timeou
     }
 }
 exports.detectEthereumProvider = detectEthereumProvider;
+function reconnect(chainData) {
+    return __awaiter(this, void 0, void 0, function* () {
+        let account;
+        if (window.ethereum) {
+            const accounts = yield window.ethereum
+                .request({ method: 'eth_accounts' })
+                .catch((err) => {
+                if (err.code === USER_DOESNT_HAVE_THIS_NETWORK) {
+                    console.log('Please connect to MetaMask.');
+                }
+                else {
+                    console.error(err);
+                }
+            });
+            yield checkChainId(chainData);
+            account = accounts[0];
+        }
+        return account;
+    });
+}
+exports.reconnect = reconnect;
 function connect(chainData) {
     return __awaiter(this, void 0, void 0, function* () {
         let account;
