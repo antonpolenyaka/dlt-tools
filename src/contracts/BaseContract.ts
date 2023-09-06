@@ -1,6 +1,5 @@
 import { BrowserProvider, Contract, JsonRpcSigner, Result } from "ethers";
 import IEVMChainData from "../IEVMChainData";
-import Blockchain from "../Blockchain";
 
 class BaseContract {
   abi: any;
