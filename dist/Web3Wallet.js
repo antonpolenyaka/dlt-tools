@@ -81,6 +81,7 @@ class Web3Wallet {
     connect() {
         return __awaiter(this, void 0, void 0, function* () {
             try {
+                console.debug("Web3Wallet connect start");
                 this.isConnected = false;
                 if (this.chainData !== undefined) {
                     const userAccount = yield (0, connectWallet_1.connect)(this.chainData);
@@ -88,10 +89,19 @@ class Web3Wallet {
                     if (userAccount !== undefined) {
                         yield this.initializeConnection(userAccount);
                     }
+                    else {
+                        console.error("Web3Wallet userAccount is undefined");
+                    }
+                }
+                else {
+                    console.error("Web3Wallet chainData is undefined");
                 }
             }
             catch (exception) {
                 console.error("Web3Wallet catched exception in connect", exception);
+            }
+            finally {
+                console.debug("Web3Wallet connect end");
             }
             return this.isConnected;
         });

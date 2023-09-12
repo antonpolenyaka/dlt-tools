@@ -65,11 +65,13 @@ class Web3Wallet {
           if (window.ethereum._metamask) {
             isUnlocked = await window.ethereum._metamask.isUnlocked();
           }
-        }        
+        }
         // Check if is locked, we don't try to do anything to reconnect
         if (isUnlocked === true && providerIsConnected === true) {
           // Case if we have unlocked web3 wallet and connect to provider
-          const userAccount: string | undefined = await reconnect(this.chainData);
+          const userAccount: string | undefined = await reconnect(
+            this.chainData
+          );
           console.debug("Web3Wallet userAccount", userAccount);
           if (userAccount !== undefined) {
             await this.initializeConnection(userAccount);
@@ -84,16 +86,23 @@ class Web3Wallet {
 
   async connect(): Promise<boolean> {
     try {
+      console.debug("Web3Wallet connect start");
       this.isConnected = false;
       if (this.chainData !== undefined) {
         const userAccount: string | undefined = await connect(this.chainData);
         console.debug("Web3Wallet userAccount", userAccount);
         if (userAccount !== undefined) {
           await this.initializeConnection(userAccount);
+        } else {
+          console.error("Web3Wallet userAccount is undefined");
         }
+      } else {
+        console.error("Web3Wallet chainData is undefined");
       }
     } catch (exception) {
       console.error("Web3Wallet catched exception in connect", exception);
+    } finally {
+      console.debug("Web3Wallet connect end");
     }
     return this.isConnected;
   }
