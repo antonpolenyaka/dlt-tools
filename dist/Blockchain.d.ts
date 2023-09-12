@@ -1,5 +1,5 @@
 declare enum Blockchain {
-    Mubai = "Mumbai",
+    Mumbai = "Mumbai",
     Polygon = "Polygon",
     Custom = "Custom"
 }
