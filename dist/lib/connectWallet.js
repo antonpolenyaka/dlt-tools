@@ -111,7 +111,7 @@ function checkChainId(chainData) {
                 result = yield switchChain(chainData);
             }
             else {
-                console.log("Correct network are choosed");
+                console.debug("Correct network are choosed");
                 result = true;
             }
         }

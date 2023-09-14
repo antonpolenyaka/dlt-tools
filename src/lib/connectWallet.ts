@@ -101,7 +101,7 @@ export async function checkChainId(chainData: IEVMChainData): Promise<boolean> {
         if (chainId !== chainData.chainId) {
             result = await switchChain(chainData);
         } else {
-            console.log("Correct network are choosed");
+            console.debug("Correct network are choosed");
             result = true;
         }
     } catch (error: any) {
