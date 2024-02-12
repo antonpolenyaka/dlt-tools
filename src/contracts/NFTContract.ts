@@ -1,8 +1,10 @@
 import {
   BrowserProvider,
   ContractTransactionResponse,
+  JsonRpcProvider,
   JsonRpcSigner,
   Result,
+  Wallet,
 } from "ethers";
 import BaseContract from "./BaseContract";
 import IEVMChainData from "../IEVMChainData";
@@ -11,8 +13,8 @@ import { checkChainId } from "../lib/connectWallet";
 class NFTContract extends BaseContract {
   constructor(
     contractAddress_: string,
-    provider_: BrowserProvider,
-    signer_: JsonRpcSigner,
+    provider_: BrowserProvider | JsonRpcProvider,
+    signer_: JsonRpcSigner | Wallet,
     abi_: any,
     chainData_: IEVMChainData
   ) {
