@@ -1,4 +1,10 @@
-import { BrowserProvider, Contract, JsonRpcSigner, Result } from "ethers";
+import {
+  BrowserProvider,
+  Contract,
+  JsonRpcProvider,
+  JsonRpcSigner,
+  Wallet,
+} from "ethers";
 import IEVMChainData from "../IEVMChainData";
 
 class BaseContract {
@@ -6,14 +12,14 @@ class BaseContract {
   address: string;
   contract: any;
   contractSigned: any;
-  provider: BrowserProvider;
-  signer: JsonRpcSigner;
+  provider: BrowserProvider | JsonRpcProvider;
+  signer: JsonRpcSigner | Wallet;
   chainData: IEVMChainData;
 
   constructor(
     contractAddress_: string,
-    provider_: BrowserProvider,
-    signer_: JsonRpcSigner,
+    provider_: BrowserProvider | JsonRpcProvider,
+    signer_: JsonRpcSigner | Wallet,
     abi_: any,
     chainData_: IEVMChainData
   ) {
