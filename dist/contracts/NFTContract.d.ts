@@ -1,8 +1,8 @@
-import { BrowserProvider, JsonRpcSigner } from "ethers";
+import { BrowserProvider, JsonRpcProvider, JsonRpcSigner, Wallet } from "ethers";
 import BaseContract from "./BaseContract";
 import IEVMChainData from "../IEVMChainData";
 declare class NFTContract extends BaseContract {
-    constructor(contractAddress_: string, provider_: BrowserProvider, signer_: JsonRpcSigner, abi_: any, chainData_: IEVMChainData);
+    constructor(contractAddress_: string, provider_: BrowserProvider | JsonRpcProvider, signer_: JsonRpcSigner | Wallet, abi_: any, chainData_: IEVMChainData);
     getOwner: () => Promise<string>;
     balanceOf: (owner_: string) => Promise<bigint>;
     ownerOf: (tokenId_: bigint) => Promise<string>;

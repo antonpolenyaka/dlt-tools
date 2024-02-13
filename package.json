@@ -1,6 +1,6 @@
 {
   "name": "dlt-tools",
-  "version": "1.0.47",
+  "version": "1.0.48",
   "description": "Blockchain and DLT utils: connect wallet, check chain id, work with contrats and strings.",
   "repository": {
     "type": "git",
