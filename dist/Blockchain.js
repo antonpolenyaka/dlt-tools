@@ -5,6 +5,7 @@ var Blockchain;
     Blockchain["Mumbai"] = "Mumbai";
     Blockchain["Polygon"] = "Polygon";
     Blockchain["Local"] = "Local";
+    Blockchain["RentOnchain"] = "RentOnchain";
     Blockchain["Custom"] = "Custom";
 })(Blockchain || (Blockchain = {}));
 exports.default = Blockchain;
